@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/style.css">
+    <title></title>
+  </head>
+  <body>
+    <div id = "greatBoard">
+    </div>
+    <script type="text/javascript">
+      function createChassBord() {
+
+        var size = 8, littres = ['','a','b','c','d','e','f','g','h',''],
+         numbers = ['8','7','6','5','4','3','2','1'];
+
+        var table = document.createElement('table');
+        table.id = "boardChess";
+        var container = document.createElement('tr');
+        container.id = "chess_header";
+
+        var containerChessBox_1 = document.createElement('tr');
+        containerChessBox_1.id = "chess_box_1";
+
+        var containerChessBox_2 = document.createElement('tr');
+        containerChessBox_2.id = "chess_box_2";
+
+        var box = document.createElement('td');
+        var boxChess = document.createElement('td');
+
+        // Формируем картинки для фигур
+        var pawnImg = document.createElement('IMG'),
+            rookImg = document.createElement('IMG'),
+            kingImg = document.createElement('IMG'),
+            queenImg = document.createElement('IMG'),
+            bishopImg = document.createElement('IMG'),
+            horseImg = document.createElement('IMG');
+
+        var srcBlackFigureTop = ["img/wb4.png","img/wb3.png","img/wb6.png","img/wb2.png"]
+        var srcWhiteFigureTop = ["img/bb2.png","img/bb5.png","img/bb3.png","img/bb4.png"]
+
+        var srcBlackFigureBottom = ["img/ww2.png","img/ww5.png","img/ww3.png","img/ww4.png"]
+        var srcWhiteFigureBottom = ["img/bw4.png","img/bw3.png","img/bw6.png","img/bw2.png"]
+
+
+
+        greatBoard.appendChild(table);
+        boardChess.appendChild(container);
+
+        // Делаем верхнюю и нижнюю строку букв
+        for (var i = 0; i < littres.length; i++) {
+          box.innerHTML = littres[i];
+          chess_header.appendChild(box.cloneNode(true));
+        }
+
+        // Создаем строку ячеек
+        // четные - черные, нечетные - белые
+        boardChess.appendChild(containerChessBox_1);
+
+        for (var i = 0; i < size + 2 ; i++) {
+          if (i == 0) {
+            box.innerHTML = numbers[7 - i];
+            box.className = "chess_header"
+            chess_box_1.appendChild(box.cloneNode(true));
+          } else if (i == 9) {
+            box.innerHTML = numbers[i - 2];
+            box.className = "chess_header"
+            chess_box_1.appendChild(box.cloneNode(true));
+          } else if (i % 2 == 0) {
+            boxChess.className = "black"
+            chess_box_1.appendChild(boxChess.cloneNode(true));
+          } else {
+            boxChess.className = "white"
+            chess_box_1.appendChild(boxChess.cloneNode(true));
+          }
+        }
+
+        // Создаем вторую сроку ячеек
+        // четные - белые, нечетные - черные
+        boardChess.appendChild(containerChessBox_2);
+
+        for (var i = 0; i < size + 2 ; i++) {
+          if (i == 0) {
+            box.innerHTML = numbers[6 - i];
+            box.className = "chess_header"
+            chess_box_2.appendChild(box.cloneNode(true));
+          } else if (i == 9) {
+            box.innerHTML = numbers[i - 3];
+            box.className = "chess_header"
+            chess_box_2.appendChild(box.cloneNode(true));
+          } else if (i % 2 != 0 && i != 9) {
+            boxChess.className = "black"
+            chess_box_2.appendChild(boxChess.cloneNode(true));
+          } else {
+            boxChess.className = "white"
+            chess_box_2.appendChild(boxChess.cloneNode(true));
+          }
+        }
+
+        // Из созданных строк ячеек формируем шахматную доску
+        for (var i = 0; i < size - 2; i++) {
+          if (i % 2 == 0) {
+            box.innerHTML = numbers[7 - i];
+            boardChess.appendChild(containerChessBox_1.cloneNode(true));
+          } else {
+            boardChess.appendChild(containerChessBox_2.cloneNode(true));
+          }
+        }
+
+        // Нумеруем боковые ячейки доски
+        var chessHeader = document.getElementsByClassName("chess_header");
+        for (var i = 0; i < chessHeader.length; i++) {
+          chessHeader[i].innerHTML = Math.round((i + 1) / 2);
+        }
+
+        // Расставляем шахматы на доску
+        var chessWhite = document.getElementsByClassName("white");
+        var chessBlack = document.getElementsByClassName("black");
+
+        // Ставим пешки сверху
+        for (var i = 4; i < 8; i++) {
+          pawnImg.src = "img/wb1.png";
+          chessWhite[i].appendChild(pawnImg.cloneNode(true));
+        }
+        for (var i = 4; i < 8; i++) {
+          pawnImg.src = "img/bb1.png";
+          chessBlack[i].appendChild(pawnImg.cloneNode(true));
+        }
+
+          //Ставим остальные фигуры сверху
+          for (var i = 0; i < 4; i++) {
+            pawnImg.src = srcBlackFigureTop[i];
+            chessWhite[i].appendChild(pawnImg.cloneNode(true));
+          }
+          for (var i = 0; i < 4; i++) {
+            pawnImg.src = srcWhiteFigureTop[i];
+            chessBlack[i].appendChild(pawnImg.cloneNode(true));
+          }
+
+          // Ставим пешки снизу
+          for (var i = 24; i < 28; i++) {
+            pawnImg.src = "img/ww1.png";
+            chessWhite[i].appendChild(pawnImg.cloneNode(true));
+          }
+          for (var i = 24; i < 28; i++) {
+            pawnImg.src = "img/bw1.png";
+            chessBlack[i].appendChild(pawnImg.cloneNode(true));
+          }
+
+          //Ставим остальные фигуры снизу
+          for (var i = 28; i < 32; i++) {
+            pawnImg.src = srcBlackFigureBottom[i - 28];
+            chessWhite[i].appendChild(pawnImg.cloneNode(true));
+          }
+          for (var i = 28; i < 32; i++) {
+            pawnImg.src = srcWhiteFigureBottom[i - 28];
+            chessBlack[i].appendChild(pawnImg.cloneNode(true));
+          }
+
+        console.log(chessWhite);
+        console.log(chessBlack);
+
+        // Добавляем строку с буквами снизу
+        boardChess.appendChild(container.cloneNode(true));
+
+
+      }
+      createChassBord();
+    </script>
+  </body>
+</html>
